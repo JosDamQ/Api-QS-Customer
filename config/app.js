@@ -6,6 +6,7 @@ const helmet = require ('helmet');
 const cors = require ('cors');
 const app = express();
 const port = process.env.PORT || 3000;
+const { swaggerDocs } = require('../src/routes/swagger')
 
 //Declaracion de rutas
 const customerRoutes = require('../src/routes/customer')
@@ -23,4 +24,5 @@ app.use('/customer', customerRoutes)
 exports.initServer = ()=>{
     app.listen(port);
     console.log(`Server http running in port ${port}`);
+    swaggerDocs(app, port)
 }
