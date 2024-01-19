@@ -7,7 +7,7 @@ exports.ensureAuth = (req,res,next)=>{
         return res.status(403).send({message: `Doesn´t contain headers "Authorization"`});
     }else{
         try{
-            let token = req.headers.authorization.replace(/['"]+/g, '');
+            let token = req.headers.authorization.replace(/Bearer\s+/i, '');
             var payload = jwt.decode(token, `${process.env.SECRET_KEY}`);
             if(Math.floor(Date.now() / 1000) >= payload.exp){
                 return res.status(401).send({message: 'Expired token'});
