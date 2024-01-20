@@ -156,6 +156,13 @@ exports.editYourAccount = async(req, res) => {
             email: data.email,
             phone: data.phone
         }
+        //Verify if the fields are empty
+        for (const key in params) {
+          if (!params[key])
+            return res.status(400).send({
+              message: `The ${key} field can not be empty`,
+            });
+        }
         let customerUpdate = await Customers.update({
             name: params.name, surname: params.surname,
             email: params.email, phone: params.phone
