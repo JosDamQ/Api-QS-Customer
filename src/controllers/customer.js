@@ -118,28 +118,28 @@ exports.getYourPackages = async(req, res) => {
 exports.updatePassword = async(req, res) => {
     try{
         let customerId = req.user.sub
-        let customerRouteId = req.params.id
+        //let customerRouteId = req.params.id
         let data = req.body
         let params = {
             before: data.before,
             after: data.after
         }
 
-        if(customerId != customerRouteId) return res.status(403).send({message: 'You cant edit this user'})
+        //if(customerId != customerRouteId) return res.status(403).send({message: 'You cant edit this user'})
         let customer = await Customers.findOne({
             where: {
-                id: customerRouteId
+                id: customerId
             }
         })
 
         if(!customer) return res.status(404).send({message: 'Customer not found'})
         params.after = await encrypt(params.after)
-        if(await compare(params.before, customer.customer_password)){
-            await Customers.update({ customer_password: params.after}, {where: { id: customerRouteId}})
+        if(await compare(params.before, customer.password)){
+            await Customers.update({ password: params.after}, {where: { id: customerId}})
             return res.status(201).send({ message: 'Password was updated' })
         }
 
-        return res.status(401).send({ message: 'Invalid Password' });
+        return res.status(401).send({ message: 'Incorrect Password' });
     }catch(err){
         console.error(err)
         return res.status(500).send({message: 'Error updating password'})
