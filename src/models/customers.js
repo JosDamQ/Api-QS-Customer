@@ -24,7 +24,14 @@ const customers = sequelize.define('customers', {
     },
     email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true,
+        validate: {
+            isEmail: {
+                args: true,
+                msg: 'Invalid email format'
+            }
+        }
     },
     phone: {
         type: DataTypes.STRING,
