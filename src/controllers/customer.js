@@ -5,7 +5,7 @@ const Packages = require('../models/packages')
 const { checkPassword, encrypt } = require('../utils/validate')
 const { createToken } = require('../services/jwt')
 const { compare } = require('bcrypt')
-require('sequelize')
+const { Op} = require('sequelize')
 
 exports.login = async(req, res) => {
     try{
@@ -181,7 +181,10 @@ exports.deleteAccount = async(req, res) => {
         if(!existCustomer) return res.status(404).send({message: 'Account not found'})
         let hasPackage = await Packages.findAll({
             where: {
-                customer_id: customerId
+                customer_id: customerId,
+                status_id: {
+                    [Op.ne]: 5
+                }
             }
         })
         if(hasPackage.length != 0) return res.status(400).send({message: 'You cannot delete your account because you have a pending package'})
