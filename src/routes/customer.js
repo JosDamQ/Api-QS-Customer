@@ -6,12 +6,13 @@ const express = require('express')
 const api = express.Router()
 
 //Todas las rutas
+
 /**
  * @swagger
  * /customer/login:
  *   post:
- *     summary: Iniciar sesión
- *     description: Endpoint para que los clientes inicien sesión.
+ *     summary: Login
+ *     description: Endpoint for login customers.
  *     requestBody:
  *       required: true
  *       content:
@@ -21,32 +22,32 @@ const api = express.Router()
  *             properties:
  *               email:
  *                 type: string
- *                 description: Dirección de correo electrónico del usuario.
+ *                 description: Email from the user.
  *               password:
  *                 type: string
- *                 description: Contraseña del usuario.
+ *                 description: Password from user.
  *     responses:
  *       200:
- *         description: Usuario autenticado correctamente.
+ *         description: User loggin succesfully.
  *         content:
  *           application/json:
  *             example:
  *               message: User logged successfully
  *               token: your_generated_token_here
  *       400:
- *         description: Datos de solicitud incorrectos.
+ *         description: The user dont sende data.
  *         content:
  *           application/json:
  *             example:
  *               message: The password and email are required
  *       404:
- *         description: Usuario no encontrado o Email no registrado.
+ *         description: User not found.
  *         content:
  *           application/json:
  *             example:
  *               message: Invalid Credentials
  *       500:
- *         description: Error del servidor.
+ *         description: Error in the server.
  *         content:
  *           application/json:
  *             example:
@@ -58,8 +59,8 @@ api.post('/login', customerController.login)
  * @swagger
  * /customer/register:
  *   post:
- *     summary: Registrar nuevo cliente
- *     description: Endpoint para que los clientes se registren.
+ *     summary: Register new customer
+ *     description: Endpoint for register customer.
  *     requestBody:
  *       required: true
  *       content:
@@ -69,41 +70,41 @@ api.post('/login', customerController.login)
  *             properties:
  *               name:
  *                 type: string
- *                 description: Nombre del cliente.
+ *                 description: Customer name.
  *               surname:
  *                 type: string
- *                 description: Apellido del cliente.
+ *                 description: Customer surname.
  *               email:
  *                 type: string
- *                 description: Dirección de correo electrónico del cliente.
+ *                 description: Customer email.
  *               password:
  *                 type: string
- *                 description: Contraseña del cliente.
+ *                 description: Customer password.
  *               phone:
  *                 type: string
- *                 description: Número de teléfono del cliente.
+ *                 description: Customer phone.
  *     responses:
  *       201:
- *         description: Cliente registrado correctamente.
+ *         description: Customer registred succesfully.
  *         content:
  *           application/json:
  *             example:
  *               message: Customer registered successfully
  *               customer: { id: 1, name: 'John', surname: 'Doe', ... }
  *       401:
- *         description: El correo electrónico ya existe.
+ *         description: This email already exist.
  *         content:
  *           application/json:
  *             example:
  *               message: Email already exist
  *       402:
- *         description: Parámetros requeridos faltantes.
+ *         description: Params required.
  *         content:
  *           application/json:
  *             example:
  *               message: This params are requerited
  *       500:
- *         description: Error del servidor.
+ *         description: Error in the server.
  *         content:
  *           application/json:
  *             example:
@@ -115,27 +116,27 @@ api.post('/register', customerController.register)
  * @swagger
  * /customer/getInfo:
  *   get:
- *     summary: Obtener información del cliente autenticado
- *     description: Endpoint para obtener la información del cliente autenticado.
+ *     summary: Get info from customer
+ *     description: Endpoint to get the info from customer.
  *     responses:
  *       200:
- *         description: Información del cliente obtenida correctamente.
+ *         description: Info from customer.
  *         content:
  *           application/json:
  *             example:
- *               customer_name: John
- *               customer_surname: Doe
- *               customer_code: WAS123
- *               customer_email: john.doe@example.com
- *               customer_phone: 123456789
+ *               name: John
+ *               surname: Doe
+ *               code: WAS123
+ *               email: john.doe@example.com
+ *               phone: 123456789
  *       404:
- *         description: Cliente no encontrado.
+ *         description: Customer not found.
  *         content:
  *           application/json:
  *             example:
  *               message: Customer not found
  *       500:
- *         description: Error del servidor.
+ *         description: Error in the server.
  *         content:
  *           application/json:
  *             example:
@@ -150,13 +151,13 @@ api.get('/getInfo', ensureAuth, customerController.getYourInfo)
  * @swagger
  * /customer/getpackages:
  *   get:
- *     summary: Obtener paquetes del cliente autenticado
- *     description: Endpoint para obtener los paquetes del cliente autenticado.
+ *     summary: Get packages from customer authenticated
+ *     description: Endpoint to get the packages from customer authenticated.
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Lista de paquetes obtenida correctamente.
+ *         description: List of package is ok.
  *         content:
  *           application/json:
  *             example:
@@ -167,13 +168,13 @@ api.get('/getInfo', ensureAuth, customerController.getYourInfo)
  *                 weight: "1.5kg"
  *                 description: "Clothing"
  *       202:
- *         description: Cliente no tiene paquetes.
+ *         description: Customer does not has packages.
  *         content:
  *           application/json:
  *             example:
  *               message: You dont have packages
  *       500:
- *         description: Error del servidor.
+ *         description: Error in the server.
  *         content:
  *           application/json:
  *             example:
@@ -185,8 +186,8 @@ api.get('/getPackages', ensureAuth, customerController.getYourPackages)
  * @swagger
  * /customer/updatePassword:
  *   put:
- *     summary: Actualiza la contraseña del cliente
- *     description: Endpoint para actualizar la contraseña del cliente.
+ *     summary: Update password from customer
+ *     description: Endpoint to update password from customer authenticated.
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -198,35 +199,35 @@ api.get('/getPackages', ensureAuth, customerController.getYourPackages)
  *             properties:
  *               before:
  *                 type: string
- *                 description: Contraseña actual del cliente.
+ *                 description: Current password from customer authenticated.
  *               after:
  *                 type: string
- *                 description: Nueva contraseña del cliente.
+ *                 description: New password.
  *     responses:
  *       201:
- *         description: Contraseña actualizada correctamente.
+ *         description: Password updated succesfully.
  *         content:
  *           application/json:
  *             example:
- *               message: Contraseña actualizada correctamente.
+ *               message: Password updated succesfully.
  *       401:
- *         description: Contraseña incorrecta.
+ *         description: Incorrect password.
  *         content:
  *           application/json:
  *             example:
- *               message: Contraseña incorrecta.
+ *               message: Incorrect password.
  *       404:
- *         description: Cliente no encontrado.
+ *         description: Customer not found.
  *         content:
  *           application/json:
  *             example:
- *               message: Cliente no encontrado.
+ *               message: Customer not found.
  *       500:
- *         description: Error del servidor.
+ *         description: Error in the server.
  *         content:
  *           application/json:
  *             example:
- *               message: Error interno del servidor.
+ *               message: Error updating your password.
  */
 api.put('/updatePassword', ensureAuth, customerController.updatePassword)
 
@@ -234,8 +235,8 @@ api.put('/updatePassword', ensureAuth, customerController.updatePassword)
  * @swagger
  * /customer/updateProfile:
  *   put:
- *     summary: Actualiza la cuenta del cliente
- *     description: Endpoint para actualizar la cuenta del cliente.
+ *     summary: Update profile from customer
+ *     description: Endpoint to update information from customer auntheticated.
  *     requestBody:
  *       required: true
  *       content:
@@ -253,22 +254,22 @@ api.put('/updatePassword', ensureAuth, customerController.updatePassword)
  *                 type: string
  *     responses:
  *       200:
- *         description: Cuenta actualizada correctamente.
+ *         description: Information updated succesfully.
  *         content:
  *           application/json:
  *             example:
- *               message: Cuenta actualizada correctamente.
+ *               message: Information updated succesfully .
  *               customerUpdate:
  *                 name: NuevoNombre
  *                 surname: NuevoApellido
  *                 email: nuevo@email.com
  *                 phone: nuevoTelefono
  *       500:
- *         description: Error del servidor.
+ *         description: Error in the server.
  *         content:
  *           application/json:
  *             example:
- *               message: Error interno del servidor.
+ *               message: Error updating your information.
  */
 api.put('/updateProfile', ensureAuth, customerController.editYourAccount)
 
@@ -276,35 +277,35 @@ api.put('/updateProfile', ensureAuth, customerController.editYourAccount)
  * @swagger
  * /customer/deleteProfile:
  *   delete:
- *     summary: Elimina la cuenta del cliente
- *     description: Endpoint para eliminar la cuenta del cliente.
+ *     summary: Delete customer account
+ *     description: Endpoint to delete customer account.
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Cuenta eliminada correctamente.
+ *         description: Account deleted succesfully.
  *         content:
  *           application/json:
  *             example:
- *               message: Cuenta eliminada correctamente.
+ *               message: Account deleted succesfully.
  *       400:
- *         description: No se puede eliminar la cuenta debido a paquetes pendientes.
+ *         description: You cannot delete yout account because yo have packages.
  *         content:
  *           application/json:
  *             example:
- *               message: No se puede eliminar la cuenta porque tiene un paquete pendiente.
+ *               message: You cannot delete yout account because yo have packages.
  *       404:
- *         description: Cuenta no encontrada.
+ *         description: Customer not found.
  *         content:
  *           application/json:
  *             example:
- *               message: Cuenta no encontrada.
+ *               message: Customer not found.
  *       500:
- *         description: Error del servidor.
+ *         description: Error in the server.
  *         content:
  *           application/json:
  *             example:
- *               message: Error interno del servidor.
+ *               message: Error in the server.
  */
 api.delete('/deleteProfile', ensureAuth, customerController.deleteAccount)
 

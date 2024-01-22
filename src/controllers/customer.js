@@ -118,14 +118,11 @@ exports.getYourPackages = async(req, res) => {
 exports.updatePassword = async(req, res) => {
     try{
         let customerId = req.user.sub
-        //let customerRouteId = req.params.id
         let data = req.body
         let params = {
             before: data.before,
             after: data.after
         }
-
-        //if(customerId != customerRouteId) return res.status(403).send({message: 'You cant edit this user'})
         let customer = await Customers.findOne({
             where: {
                 id: customerId
@@ -195,5 +192,4 @@ exports.deleteAccount = async(req, res) => {
         return res.status(500).send({message: 'Error deleting yor account'})
     }
 }
-
 
