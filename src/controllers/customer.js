@@ -153,13 +153,18 @@ exports.editYourAccount = async(req, res) => {
             email: data.email,
             phone: data.phone
         }
-        //Verify if the fields are empty
-        for (const key in params) {
+        /*for (const key in params) {
           if (!params[key])
             return res.status(400).send({
               message: `The ${key} field can not be empty`,
             });
+        }*/
+
+        let emailExists = await Customers.findOne({ where: { email: params.email } });
+        if (emailExists && emailExists.id !== customerId) {
+            return res.status(400).send({ message: 'Email is already in use' });
         }
+
         let customerUpdate = await Customers.update({
             name: params.name, surname: params.surname,
             email: params.email, phone: params.phone
