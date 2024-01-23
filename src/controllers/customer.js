@@ -2,6 +2,7 @@
 
 const Customers = require('../models/customers')
 const Packages = require('../models/packages')
+const Status = require('../models/status')
 const { checkPassword, encrypt } = require('../utils/validate')
 const { createToken } = require('../services/jwt')
 const { compare } = require('bcrypt')
@@ -105,6 +106,10 @@ exports.getYourPackages = async(req, res) => {
             },
             attributes: {
                 exclude: ['id']
+            },
+            include: {
+                model: Status,
+                as: 'status',
             }
         })
         if(packages.length == 0) return res.status(202).send({message: 'You dont have packages'})
