@@ -101,7 +101,7 @@ exports.getYourPackages = async(req, res) => {
         let customerId = req.user.sub
         let packages = await Packages.findAll({
             where: {
-                status_id: customerId
+                customer_id: customerId
             },
             attributes: {
                 exclude: ['id']
