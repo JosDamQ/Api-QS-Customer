@@ -158,12 +158,6 @@ exports.editYourAccount = async(req, res) => {
             email: data.email,
             phone: data.phone
         }
-        /*for (const key in params) {
-          if (!params[key])
-            return res.status(400).send({
-              message: `The ${key} field can not be empty`,
-            });
-        }*/
 
         let emailExists = await Customers.findOne({ where: { email: params.email } });
         if (emailExists && emailExists.id !== customerId) {
@@ -203,6 +197,15 @@ exports.deleteAccount = async(req, res) => {
     }catch(err){
         console.error(err)
         return res.status(500).send({message: 'Error deleting yor account'})
+    }
+}
+
+exports.getUserById = async(req, res) => {
+    try{
+        
+    }catch(err){
+        console.error(err)
+        return res.status(500).send({message: 'Error in the server'})
     }
 }
 
